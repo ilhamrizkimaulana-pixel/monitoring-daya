@@ -1,54 +1,42 @@
+import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, db
 
 def init_firebase():
     """
-    Inisialisasi koneksi ke Firebase Realtime Database.
-    Pastikan file serviceAccountKey.json sudah ada di folder yang sama.
+    Inisialisasi koneksi ke Firebase.
+    Untuk Streamlit Cloud: ambil dari Secrets.
     """
     if not firebase_admin._apps:
-        cred = credentials.Certificate("serviceAccountKey.json")
+        firebase_config = {
+            "type": st.secrets["firebase"]["type"],
+            "project_id": st.secrets["firebase"]["project_id"],
+            "private_key_id": st.secrets["firebase"]["private_key_id"],
+            "private_key": st.secrets["firebase"]["private_key"],
+            "client_email": st.secrets["firebase"]["client_email"],
+            "client_id": st.secrets["firebase"]["client_id"],
+            "auth_uri": st.secrets["firebase"]["auth_uri"],
+            "token_uri": st.secrets["firebase"]["token_uri"],
+            "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
+            "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
+            "universe_domain": st.secrets["firebase"]["universe_domain"]
+        }
+        
+        database_url = st.secrets["firebase_config"]["database_url"]
+        
+        cred = credentials.Certificate(firebase_config)
         firebase_admin.initialize_app(cred, {
-            "databaseURL": "https://skripsi-151e5-default-rtdb.asia-southeast1.firebasedatabase.app/"
-            # Ganti YOUR-PROJECT-ID dengan ID project Firebase kamu 
+            "databaseURL": database_url
         })
 
 def get_realtime_data():
-    """
-    Mengambil data sensor terbaru dari Firebase Realtime Database.
-    Struktur data di Firebase:
-    /sensor_data/
-        tegangan: float
-        arus: float
-        daya: float
-        energi: float
-        frekuensi: float
-        faktor_daya: float
-        timestamp: string
-    /relay_status/
-        status: bool
-        jadwal_aktif: string
-    """
     ref_sensor = db.reference("/sensor_data")
     ref_relay = db.reference("/relay_status")
-
     sensor_data = ref_sensor.get()
     relay_data = ref_relay.get()
-
     return sensor_data, relay_data
 
 def get_history_data():
-    """
-    Mengambil data riwayat dari Firebase untuk ditampilkan di grafik.
-    Struktur data di Firebase:
-    /history/
-        timestamp_1/
-            daya: float
-            energi: float
-            timestamp: string
-        timestamp_2/
-            ...
-    """
     ref_history = db.reference("/history")
     history_data = ref_history.order_by_key().limit_to_last(50).get()
     return history_data
