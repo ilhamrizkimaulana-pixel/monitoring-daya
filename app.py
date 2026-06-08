@@ -242,7 +242,7 @@ st.markdown('<p class="section-title">🔋 Konsumsi Energi dan Estimasi Biaya</p
 col_e1, col_e2, col_e3 = st.columns(3)
 
 with col_e1:
-    st.markdown(make_metric_card("⚡ Total Energi", f"{sensor_data.get('energi', 0):.4f}", "kWh", "#89dceb"), unsafe_allow_html=True)
+    st.markdown(make_metric_card("⚡ Total Energi", f"{sensor_data.get('energi', 0):.5f}", "kWh", "#89dceb"), unsafe_allow_html=True)
 with col_e2:
     st.markdown(make_metric_card("💰 Estimasi Biaya", f"Rp {estimasi_biaya:,.0f}", f"@ Rp {tarif_input:,}/kWh", "#a6e3a1"), unsafe_allow_html=True)
 with col_e3:
