@@ -206,14 +206,14 @@ def show_relay_status(col, relay_num, status):
 
 # Tampilkan 4 relay
 with col_r1:
-    show_relay_status(col_r1, 1, relay1, relay_data.get("jadwal_1", "-"))
+    show_relay_status(col_r1, 1, relay1)
 with col_r2:
-    show_relay_status(col_r2, 2, relay2, relay_data.get("jadwal_2", "-"))
+    show_relay_status(col_r2, 2, relay2)
 with col_r3:
-    show_relay_status(col_r3, 3, relay3, relay_data.get("jadwal_3", "-"))
+    show_relay_status(col_r3, 3, relay3)
 with col_r4:
-    show_relay_status(col_r4, 4, relay4, relay_data.get("jadwal_4", "-"))
-
+    show_relay_status(col_r4, 4, relay4)
+    
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ===== PARAMETER UTAMA =====
