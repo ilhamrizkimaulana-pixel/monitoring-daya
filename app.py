@@ -192,17 +192,15 @@ relay4 = relay_data.get("relay4", False)
 
 col_r1, col_r2, col_r3, col_r4 = st.columns(4)
 
-def show_relay_status(col, relay_num, status, jadwal):
+def show_relay_status(col, relay_num, status):
     status_label = "ON" if status else "OFF"
     status_class = "status-on" if status else "status-off"
-    jadwal_emoji = {"PAGI": "🌅", "SIANG": "☀️", "SORE": "🌇", "MALAM": "🌙"}.get(jadwal, "⏱️")
     
     with col:
         st.markdown(f"""
             <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
                 <div class="metric-label">Relay {relay_num}</div>
                 <span class="{status_class}">{status_label}</span>
-                <div class="metric-value" style="font-size:16px; margin-top:8px;">{jadwal_emoji} {jadwal}</div>
             </div>
         """, unsafe_allow_html=True)
 
