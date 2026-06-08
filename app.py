@@ -182,37 +182,39 @@ st.markdown('<p style="text-align: center; font-size: 16px; color: #a6adc8; marg
 st.divider()
 
 # ===== STATUS RELAY =====
-col_status1, col_status2, col_status3 = st.columns([1, 1, 2])
+st.markdown('<p class="section-title">🔌 Status 4 Relay</p>', unsafe_allow_html=True)
 
-with col_status1:
-    status = relay_data.get("status", False)
+# Ambil data 4 relay
+relay1 = relay_data.get("relay1", False)
+relay2 = relay_data.get("relay2", False)
+relay3 = relay_data.get("relay3", False)
+relay4 = relay_data.get("relay4", False)
+
+col_r1, col_r2, col_r3, col_r4 = st.columns(4)
+
+def show_relay_status(col, relay_num, status, jadwal):
     status_label = "ON" if status else "OFF"
     status_class = "status-on" if status else "status-off"
-    st.markdown(f"""
-        <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
-            <div class="metric-label">Status Relay</div>
-            <span class="{status_class}">{status_label}</span>
-        </div>
-    """, unsafe_allow_html=True)
-
-with col_status2:
-    jadwal = relay_data.get("jadwal_aktif", "-")
     jadwal_emoji = {"PAGI": "🌅", "SIANG": "☀️", "SORE": "🌇", "MALAM": "🌙"}.get(jadwal, "⏱️")
-    st.markdown(f"""
-        <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
-            <div class="metric-label">Jadwal Aktif</div>
-            <div class="metric-value" style="font-size:24px;">{jadwal_emoji} {jadwal}</div>
-        </div>
-    """, unsafe_allow_html=True)
+    
+    with col:
+        st.markdown(f"""
+            <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
+                <div class="metric-label">Relay {relay_num}</div>
+                <span class="{status_class}">{status_label}</span>
+                <div class="metric-value" style="font-size:16px; margin-top:8px;">{jadwal_emoji} {jadwal}</div>
+            </div>
+        """, unsafe_allow_html=True)
 
-with col_status3:
-    ts = sensor_data.get("timestamp", "-")
-    st.markdown(f"""
-        <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
-            <div class="metric-label">Timestamp Data Terakhir</div>
-            <div class="metric-value" style="font-size:20px;">🕐 {ts}</div>
-        </div>
-    """, unsafe_allow_html=True)
+# Tampilkan 4 relay
+with col_r1:
+    show_relay_status(col_r1, 1, relay1, relay_data.get("jadwal_1", "-"))
+with col_r2:
+    show_relay_status(col_r2, 2, relay2, relay_data.get("jadwal_2", "-"))
+with col_r3:
+    show_relay_status(col_r3, 3, relay3, relay_data.get("jadwal_3", "-"))
+with col_r4:
+    show_relay_status(col_r4, 4, relay4, relay_data.get("jadwal_4", "-"))
 
 st.markdown("<br>", unsafe_allow_html=True)
 
