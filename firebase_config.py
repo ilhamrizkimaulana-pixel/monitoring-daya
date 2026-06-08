@@ -1,30 +1,20 @@
 import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, db
+import json
 
 def init_firebase():
-    """
-    Inisialisasi koneksi ke Firebase.
-    Untuk Streamlit Cloud: ambil dari Secrets.
-    """
     if not firebase_admin._apps:
-        firebase_config = {
-            "type": st.secrets["firebase"]["type"],
-            "project_id": st.secrets["firebase"]["project_id"],
-            "private_key_id": st.secrets["firebase"]["private_key_id"],
-            "private_key": st.secrets["firebase"]["private_key"],
-            "client_email": st.secrets["firebase"]["client_email"],
-            "client_id": st.secrets["firebase"]["client_id"],
-            "auth_uri": st.secrets["firebase"]["auth_uri"],
-            "token_uri": st.secrets["firebase"]["token_uri"],
-            "auth_provider_x509_cert_url": st.secrets["firebase"]["auth_provider_x509_cert_url"],
-            "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
-            "universe_domain": st.secrets["firebase"]["universe_domain"]
-        }
+        # Ambil dari secrets sebagai JSON string
+        firebase_json = st.secrets["firebase_json"]
+        
+        # Parse JSON
+        firebase_config = json.loads(firebase_json)
+        
+        cred = credentials.Certificate(firebase_config)
         
         database_url = st.secrets["firebase_config"]["database_url"]
         
-        cred = credentials.Certificate(firebase_config)
         firebase_admin.initialize_app(cred, {
             "databaseURL": database_url
         })
