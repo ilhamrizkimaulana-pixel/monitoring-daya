@@ -195,7 +195,8 @@ col_r1, col_r2, col_r3, col_r4 = st.columns(4)
 def show_relay_status(col, relay_num, status, jadwal):
     status_label = "ON" if status else "OFF"
     status_class = "status-on" if status else "status-off"
-   
+jadwal_emoji = {"PAGI": "🌅", "SIANG": "☀️", "SORE": "🌇", "MALAM": "🌙"}.get(jadwal, "⏱️")
+    
     with col:
         st.markdown(f"""
             <div style="padding: 16px; background: #1e1e2e; border-radius: 16px; border: 1px solid #313244; text-align: center;">
