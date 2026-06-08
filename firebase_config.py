@@ -25,7 +25,9 @@ def init_firebase():
 def get_realtime_data():
     ref_sensor = db.reference("/sensor_data")
     ref_relay = db.reference("/relay_status")
-    return ref_sensor.get(), ref_relay.get()
+    sensor_data = ref_sensor.get()
+    relay_data = ref_relay.get()
+    return sensor_data, relay_data
 
 def get_history_data():
     ref_history = db.reference("/history")
