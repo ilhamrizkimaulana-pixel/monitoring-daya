@@ -101,39 +101,6 @@ with st.sidebar:
     st.markdown("Fakultas Teknik UNY")
     st.divider()
 
-    st.markdown("### 🗑️ Hapus Data")
-    col_hapus1, col_hapus2 = st.columns(2)
-
-    with col_hapus1:
-        if st.button("🗑️ History", use_container_width=True):
-            try:
-                ref = db.reference('/history')
-                ref.delete()
-                st.success("History dihapus!")
-                st.rerun()
-            except:
-                st.error("Gagal hapus!")
-
-    with col_hapus2:
-        if st.button("🔄 Reset Data", use_container_width=True):
-            try:
-                # Reset sensor_data ke 0
-                ref = db.reference('/sensor_data')
-                ref.set({
-                    "tegangan": 0,
-                    "arus": 0,
-                    "daya": 0,
-                    "energi": 0,
-                    "frekuensi": 0,
-                    "faktor_daya": 0,
-                    "timestamp": "-"
-                })
-                st.success("Data direset!")
-                st.rerun()
-            except:
-                st.error("Gagal reset!")
-
-    
     # Informasi tarif
     st.markdown("### 💡 Informasi Tarif")
     tarif_input = st.number_input(
