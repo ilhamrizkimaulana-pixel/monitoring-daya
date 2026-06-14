@@ -23,8 +23,8 @@ def init_firebase():
         firebase_admin.initialize_app(cred, {"databaseURL": database_url})
 
 def get_realtime_data():
-    ref_sensor = db.reference("/sensor_data")
-    ref_relay = db.reference("/relay_status")
+    ref_sensor = db.reference("/data/sensor")  
+    ref_relay = db.reference("/data/relay")      
     sensor_data = ref_sensor.get()
     relay_data = ref_relay.get()
     return sensor_data, relay_data
